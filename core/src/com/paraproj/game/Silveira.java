@@ -12,8 +12,8 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Silveira implements ApplicationListener {
 
-	static final int WORLD_WIDTH = 50;
-	static final int WORLD_HEIGHT = 50;
+	static final int WORLD_WIDTH = 100;
+	static final int WORLD_HEIGHT = 100;
 
 	private OrthographicCamera cam;
 	private SpriteBatch batch;
