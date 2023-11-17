@@ -1,115 +1,126 @@
 package com.paraproj.game;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import jdk.javadoc.internal.doclets.toolkit.util.DocFinder;
 
-public class Silveira implements ApplicationListener {
+public class Silveira extends Game {
+    static final int WORLD_WIDTH = 12;
+    static final int WORLD_HEIGHT = 15;
 
-	static final int WORLD_WIDTH = 100;
-	static final int WORLD_HEIGHT = 100;
+    private Viewport viewport;
+    private SpriteBatch batch;
 
-	private OrthographicCamera cam;
-	private SpriteBatch batch;
+    Vector2 worldCoordinates;
 
-	private Sprite mapSprite;
-	private float rotationSpeed;
+    private Sprite mapSprite;
+    private Sprite lastPositionSprite;
+    @Override
+    public void create() {
+        mapSprite = new Sprite(new Texture("MapaUFSM.png"));
+        mapSprite.setPosition(8, 0);
+        mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
 
-	@Override
-	public void create() {
-		rotationSpeed = 0.5f;
+        lastPositionSprite = new Sprite(new Texture("16x16.png"));
+        lastPositionSprite.setSize(1f, 1f);
+        lastPositionSprite.setOriginCenter();
+        viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT);
 
-		mapSprite = new Sprite(new Texture(Gdx.files.internal("mapa.png")));
-		mapSprite.setPosition(0, 0);
-		mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                worldCoordinates = new Vector2(screenX, screenY);
+                viewport.unproject(worldCoordinates);
 
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+                lastPositionSprite.setOriginBasedPosition(worldCoordinates.x, worldCoordinates.y);
+                System.out.println(lastPositionSprite.getX() + " " + lastPositionSprite.getY());
+                return true;
+            }
 
-		// Constructs a new OrthographicCamera, using the given viewport width and height
-		// Height is multiplied by aspect ratio.
-		cam = new OrthographicCamera(30, 30 * (h / w));
+            @Override
+            public boolean scrolled(float amountX, float amountY) {
+                OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
 
-		cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-		cam.update();
+                if(amountY > 0.1f)
+                    cam.zoom -= 0.02f;
+                else if(cam.zoom < 1.0f)
+                    cam.zoom += 0.02f;
+                System.out.println(lastPositionSprite.getX() + " " + lastPositionSprite.getY());
+                return false;
+            }
+        });
+        batch = new SpriteBatch();
+    }
 
-		batch = new SpriteBatch();
-	}
+    @Override
+    public void render() {
+        ScreenUtils.clear(Color.BLACK);
+        OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
+        handleInput();
 
-	@Override
-	public void render() {
-		handleInput();
-		cam.update();
-		batch.setProjectionMatrix(cam.combined);
+        lastPositionSprite.setBounds(lastPositionSprite.getX(), lastPositionSprite.getY(), cam.zoom, cam.zoom);
+        lastPositionSprite.setOriginCenter();
+        if(worldCoordinates != null) {
+            lastPositionSprite.setOriginBasedPosition(worldCoordinates.x, worldCoordinates.y);
+        }
 
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        viewport.apply();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
+        mapSprite.draw(batch);
+        lastPositionSprite.draw(batch);
+        batch.end();
+    }
 
-		batch.begin();
-		mapSprite.draw(batch);
-		batch.end();
-	}
+    private void handleInput() {
+        OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
+        float delta = Gdx.graphics.getDeltaTime();
 
-	private void handleInput() {
-		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			cam.zoom += 0.02;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
-			cam.zoom -= 0.02;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			cam.translate(-3, 0, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			cam.translate(3, 0, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			cam.translate(0, -3, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			cam.translate(0, 3, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			cam.rotate(-rotationSpeed, 0, 0, 1);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.E)) {
-			cam.rotate(rotationSpeed, 0, 0, 1);
-		}
+        float zoomSpeed = 1f;
+        float speed = 10;
 
-		cam.zoom = MathUtils.clamp(cam.zoom, 0.1f, 100/cam.viewportWidth);
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            cam.zoom += zoomSpeed * delta;
+            lastPositionSprite.setOriginCenter();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+            cam.zoom -= zoomSpeed * delta;
+            lastPositionSprite.setOriginCenter();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            cam.translate(-speed * delta, 0, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            cam.translate(speed * delta, 0, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            cam.translate(0, -speed * delta, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            cam.translate(0, speed * delta, 0);
+        }
 
-		float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
-		float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
+        cam.position.x = MathUtils.clamp(cam.position.x, 0, 100);
+        cam.position.y = MathUtils.clamp(cam.position.y, 0, 100);
 
-		cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f);
-		cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f);
-	}
+        cam.zoom = MathUtils.clamp(cam.zoom, 0.2f, 1f);
+    }
 
-	@Override
-	public void resize(int width, int height) {
-		cam.viewportWidth = 30f;
-		cam.viewportHeight = 30f * height/width;
-		cam.update();
-	}
-
-	@Override
-	public void resume() {
-	}
-
-	@Override
-	public void dispose() {
-		mapSprite.getTexture().dispose();
-		batch.dispose();
-	}
-
-	@Override
-	public void pause() {
-	}
-
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height, true);
+    }
 }
 
