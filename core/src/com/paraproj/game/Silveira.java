@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -27,6 +26,21 @@ public class Silveira extends Game {
 
     private Sprite mapSprite;
     private Sprite lastPositionSprite;
+
+    Vector2 localPosicao;
+
+    Vector2 posicaoReal(Vector2 posicao, float zoom){
+        float particoes = 1.0f - zoom ;
+        System.out.println(particoes);
+        float x = posicao.x;
+        float y = posicao.y;
+        while((particoes > 0.0f)){;
+            particoes -= 0.02f;
+            x -= 0.01f;
+            y -= 0.01f;
+        }
+        return new Vector2(x, y);
+    }
     @Override
     public void create() {
         mapSprite = new Sprite(new Texture("MapaUFSM.png"));
@@ -41,23 +55,28 @@ public class Silveira extends Game {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
                 worldCoordinates = new Vector2(screenX, screenY);
                 viewport.unproject(worldCoordinates);
 
                 lastPositionSprite.setOriginBasedPosition(worldCoordinates.x, worldCoordinates.y);
                 System.out.println(lastPositionSprite.getX() + " " + lastPositionSprite.getY());
+                localPosicao = posicaoReal(new Vector2(lastPositionSprite.getX(), lastPositionSprite.getY()), cam.zoom);
+                System.out.println("Posição Real: " + localPosicao);
                 return true;
             }
 
             @Override
             public boolean scrolled(float amountX, float amountY) {
                 OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
-
+                System.out.println(lastPositionSprite.getX() + " " + lastPositionSprite.getY() + " cam zoom: " + cam.zoom);
                 if(amountY > 0.1f)
                     cam.zoom -= 0.02f;
                 else if(cam.zoom < 1.0f)
                     cam.zoom += 0.02f;
-                System.out.println(lastPositionSprite.getX() + " " + lastPositionSprite.getY());
+                if(cam.zoom == 1.0f)
+                    System.out.println("Posicao Real: " + localPosicao);
+
                 return false;
             }
         });
