@@ -25,6 +25,15 @@ public class MenuScreen implements Screen {
 
     public MenuScreen(final Silveira game){
         this.game = game;
+        mySkin = new Skin(Gdx.files.internal(GameConstante.skin));
+        stage = new Stage(game.screenPort);
+        Label gameTitulo = new Label("GAME MENU", mySkin, "big");
+        gameTitulo.setSize(GameConstante.col_width*2, GameConstante.row_heigth*2);
+        gameTitulo.setPosition(0, GameConstante.centerY);
+        gameTitulo.setAlignment(Align.center);
+
+        stage.addActor(gameTitulo);
+
     }
 
 
@@ -35,12 +44,16 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0,1,0,0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
 
     }
 
     @Override
     public void resize(int width, int height) {
-
+        game.screenPort.update(width,height);
     }
 
     @Override
@@ -60,6 +73,6 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+     game.dispose();
     }
 }
