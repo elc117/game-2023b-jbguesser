@@ -1,7 +1,6 @@
 package com.paraproj.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -14,8 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,12 +34,13 @@ public class GameScreen implements Screen {
     public MyAssetManager myAssetManager = new MyAssetManager();
     private SpriteBatch batch;
     private final ImageButton botaoMapa;
-
+    private final ImageButton botaoSeta;
+    private Stage cena;
     public boolean mapaRevelado = false;
     private Sprite mapSprite;
     private Sprite lastPositionSprite;
     private MenuScreen menuScreen;  // Variável para a tela de menu
-
+    private InputMultiplexer multiplexadorInput = new InputMultiplexer();
     Vector2 worldCoordinates;
     Vector2 localPosicao;
 
@@ -56,7 +54,7 @@ public class GameScreen implements Screen {
         stage = new Stage(game.screenPort);
         mySkin = new Skin(Gdx.files.internal(GameConstante.skin));
         Gdx.input.setInputProcessor(stage);
-
+        cena = new Stage();
         Button homeBtn = new TextButton("HOME", mySkin, "small");
         homeBtn.setSize(200, 50);
         homeBtn.setPosition(50,50);
@@ -80,7 +78,6 @@ public class GameScreen implements Screen {
         botaoMapa.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Botão clicado!");
                 if(!mapaRevelado)
                     mostrarMapa();
             }
@@ -88,6 +85,54 @@ public class GameScreen implements Screen {
         stage.addActor(botaoMapa);
         stage.addActor(homeBtn);
 
+        //Botao de voltar
+        skin.add("botaoSeta", new Texture("seta.png"));
+        skin.setScale(.07f);
+        ImageButton.ImageButtonStyle estiloBotao = new ImageButton.ImageButtonStyle();
+        estiloBotao.imageUp = skin.getDrawable("botaoSeta");
+        botaoSeta = new ImageButton(estiloBotao);
+
+        botaoSeta.setPosition(Gdx.graphics.getWidth() / 2 - botaoMapa.getWidth() - 80, Gdx.graphics.getHeight() / 2 + 250);
+
+        botaoSeta.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Clicado.");
+                if(mapaRevelado)
+                    mapaRevelado = false;
+                Gdx.input.setInputProcessor(stage);
+            }
+        });
+        cena.addActor(botaoSeta);
+        multiplexadorInput.addProcessor(cena);
+        multiplexadorInput.addProcessor(new InputAdapter() {
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
+                worldCoordinates = new Vector2(screenX, screenY);
+                viewport.unproject(worldCoordinates);
+                lastPositionSprite.setOriginBasedPosition(worldCoordinates.x, worldCoordinates.y);
+                System.out.println(lastPositionSprite.getX() + " " + lastPositionSprite.getY());
+                localPosicao = posicaoReal(new Vector2(lastPositionSprite.getX(), lastPositionSprite.getY()), cam.zoom);
+                System.out.println("Posição Real: " + localPosicao);
+                return true;
+            }
+
+            @Override
+            public boolean scrolled(float amountX, float amountY) {
+                OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
+                System.out.println(lastPositionSprite.getX() + " " + lastPositionSprite.getY() + " cam zoom: " + cam.zoom);
+                if(amountY > 0.1f)
+                    cam.zoom -= 0.02f;
+                else if(cam.zoom < 1.0f )
+                    cam.zoom += 0.02f;
+                if(cam.zoom == 1.0f)
+                    System.out.println("Posicao Real: " + localPosicao);
+                return true;
+            }
+
+
+        });
 
     }
     Vector2 posicaoReal(Vector2 posicao, float zoom) {
@@ -152,12 +197,15 @@ public class GameScreen implements Screen {
                     cam.zoom += 0.02f;
                 if(cam.zoom == 1.0f)
                     System.out.println("Posicao Real: " + localPosicao);
-                return false;
+                return true;
             }
+
+
         });
         OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
         cam.zoom = 1f;
         mapaRevelado = true;
+        Gdx.input.setInputProcessor(multiplexadorInput);
     }
 
     @Override
@@ -180,6 +228,8 @@ public class GameScreen implements Screen {
             lastPositionSprite.draw(batch);
 
             batch.end();
+            cena.act(Gdx.graphics.getDeltaTime());
+            cena.draw();
             //stage.act();
             //stage.draw();
         }
@@ -234,7 +284,6 @@ public class GameScreen implements Screen {
         if (game.screenPort != null) {
             game.screenPort.update(width, height);
         }
-
     }
 
     @Override
@@ -259,6 +308,6 @@ public class GameScreen implements Screen {
         batch.dispose();
         mySkin.dispose();
         stage.dispose();
-
+        cena.dispose();
     }
 }
