@@ -1,19 +1,17 @@
 package com.paraproj.game;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.Input;
@@ -24,17 +22,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.paraproj.game.GameConstante;
-import com.paraproj.game.Silveira;
-import com.paraproj.game.SettingsScreen;
-import com.paraproj.game.MenuScreen;
-import com.paraproj.game.GameScreen;
 
 
 public class GameScreen implements Screen {
     final Silveira game;
-    private Stage stage;
-    private Skin mySkin;
+    private final Stage stage;
+    private final Skin mySkin;
 
     static final int WORLD_WIDTH = 12;
     static final int WORLD_HEIGHT = 15;
@@ -43,7 +36,9 @@ public class GameScreen implements Screen {
     private Viewport viewport;
     public MyAssetManager myAssetManager = new MyAssetManager();
     private SpriteBatch batch;
+    private final ImageButton botaoMapa;
 
+    public boolean mapaRevelado = false;
     private Sprite mapSprite;
     private Sprite lastPositionSprite;
     private MenuScreen menuScreen;  // Variável para a tela de menu
@@ -65,19 +60,32 @@ public class GameScreen implements Screen {
         Button homeBtn = new TextButton("HOME", mySkin, "small");
         homeBtn.setSize(200, 50);
         homeBtn.setPosition(50,50);
-        homeBtn.addListener(new InputListener(){
+        homeBtn.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+            public void clicked(InputEvent event, float x, float y) {
                 game.gotoMenuScreen();
-                return true;
             }
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button){
-                super.touchUp(event,x,y,pointer,button);
-            }
-
         });
 
+        //Parte debaixo é para o botão de mapa
+        Skin skin = new Skin();
+        skin.add("botaoImagem", new Texture("MapaUFSM.png"));
+        skin.setScale(.08f);
+        ImageButton.ImageButtonStyle estilo = new ImageButton.ImageButtonStyle();
+        estilo.imageUp = skin.getDrawable("botaoImagem");
+        botaoMapa = new ImageButton(estilo);
+
+        botaoMapa.setPosition(Gdx.graphics.getWidth() - botaoMapa.getWidth(), 0);
+
+        botaoMapa.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Botão clicado!");
+                if(!mapaRevelado)
+                    mostrarMapa();
+            }
+        });
+        stage.addActor(botaoMapa);
         stage.addActor(homeBtn);
 
 
@@ -86,7 +94,7 @@ public class GameScreen implements Screen {
         float particoes = 1.0f - zoom ;
         float x = posicao.x;
         float y = posicao.y;
-        while((particoes > 0.0f)){;
+        while((particoes > 0.0f)){
             particoes -= 0.02f;
             x -= 0.01f;
             y -= 0.01f;
@@ -114,56 +122,76 @@ public class GameScreen implements Screen {
         lastPositionSprite.setSize(1f, 1f);
         lastPositionSprite.setOriginCenter();
 
+
+
+
+
+    }
+
+    public void mostrarMapa(){
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
                 worldCoordinates = new Vector2(screenX, screenY);
                 viewport.unproject(worldCoordinates);
-
                 lastPositionSprite.setOriginBasedPosition(worldCoordinates.x, worldCoordinates.y);
+                System.out.println(lastPositionSprite.getX() + " " + lastPositionSprite.getY());
                 localPosicao = posicaoReal(new Vector2(lastPositionSprite.getX(), lastPositionSprite.getY()), cam.zoom);
-                System.out.println("Posição X: " + worldCoordinates.x + ", Posição Y: " + worldCoordinates.y);
+                System.out.println("Posição Real: " + localPosicao);
                 return true;
             }
 
             @Override
             public boolean scrolled(float amountX, float amountY) {
                 OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
+                System.out.println(lastPositionSprite.getX() + " " + lastPositionSprite.getY() + " cam zoom: " + cam.zoom);
                 if(amountY > 0.1f)
                     cam.zoom -= 0.02f;
-                else if(cam.zoom < 1.0f)
+                else if(cam.zoom < 1.0f )
                     cam.zoom += 0.02f;
-
+                if(cam.zoom == 1.0f)
+                    System.out.println("Posicao Real: " + localPosicao);
                 return false;
             }
         });
-
+        OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
+        cam.zoom = 1f;
+        mapaRevelado = true;
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,0,0,0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act();
-        stage.draw();
         ScreenUtils.clear(Color.BLACK);
         OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
-        handleInput();
-
-        lastPositionSprite.setBounds(lastPositionSprite.getX(), lastPositionSprite.getY(), cam.zoom, cam.zoom);
-        lastPositionSprite.setOriginCenter();
-        if(worldCoordinates != null) {
-            lastPositionSprite.setOriginBasedPosition(worldCoordinates.x, worldCoordinates.y);
-        }
-
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-        mapSprite.draw(batch);
-        lastPositionSprite.draw(batch);
-        batch.end();
+        if (mapaRevelado) {
+            handleInput();
+            lastPositionSprite.setBounds(lastPositionSprite.getX(), lastPositionSprite.getY(), cam.zoom, cam.zoom);
+            lastPositionSprite.setOriginCenter();
+
+            if (worldCoordinates != null) {
+                lastPositionSprite.setOriginBasedPosition(worldCoordinates.x, worldCoordinates.y);
+            }
+
+            mapSprite.draw(batch);
+            lastPositionSprite.draw(batch);
+
+            batch.end();
+            //stage.act();
+            //stage.draw();
+        }
+        else{
+            batch.end();
+            stage.act();
+            stage.draw();
+            //cena.act(Gdx.graphics.getDeltaTime());
+            //cena.draw();
+        }
     }
+
     private void handleInput() {
         OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
         float delta = Gdx.graphics.getDeltaTime();
