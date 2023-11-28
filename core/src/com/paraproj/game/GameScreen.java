@@ -44,6 +44,13 @@ public class GameScreen implements Screen {
     Vector2 worldCoordinates;
     Vector2 localPosicao;
 
+    //setando as fotos
+    public LocalFoto[] locais = {new LocalFoto (new Texture(Gdx.files.internal("fotos-ufsm/1.jpg")), 14.6785f, 15.5375f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/4.jpg")), 19.7897f, 20.4567f)};
+    
+
+
+    Texture atual = locais[MathUtils.random(0, 1)].foto;
+
     public GameScreen(final Silveira game){
         this.game = game;
         batch = new SpriteBatch();
@@ -64,6 +71,8 @@ public class GameScreen implements Screen {
                 game.gotoMenuScreen();
             }
         });
+
+
 
         //Parte debaixo é para o botão de mapa
         Skin skin = new Skin();
@@ -226,7 +235,6 @@ public class GameScreen implements Screen {
 
             mapSprite.draw(batch);
             lastPositionSprite.draw(batch);
-
             batch.end();
             cena.act(Gdx.graphics.getDeltaTime());
             cena.draw();
@@ -234,6 +242,7 @@ public class GameScreen implements Screen {
             //stage.draw();
         }
         else{
+            batch.draw(atual, 0,0, 27, WORLD_HEIGHT);
             batch.end();
             stage.act();
             stage.draw();
