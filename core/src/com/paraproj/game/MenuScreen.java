@@ -26,7 +26,7 @@ public class MenuScreen implements Screen {
 
     public MenuScreen(final Silveira game) {
         this.game = game;
-        TelaFundo = new Texture(Gdx.files.internal("FundoMenu.jpeg"));
+        TelaFundo = new Texture(Gdx.files.internal("MenuJogo.png"));
         mySkin = new Skin(Gdx.files.internal("skin/glassy-ui.json")); // Caminho do arquivo de skin pode variar
         stage = new Stage(game.screenPort);
 
@@ -35,22 +35,22 @@ public class MenuScreen implements Screen {
         gameTitle.setPosition(400, 300); // Posicione conforme necessário
         gameTitle.setAlignment(Align.center);
 
-        Button startBtn = new TextButton("START GAME", mySkin, "small");
+        Button startBtn = new TextButton("Investigar", mySkin, "small");
         startBtn.setSize(200, 50);
-        startBtn.setPosition(centerX - startBtn.getWidth()/2, centerY); // Posicione conforme necessário
+        startBtn.setPosition(10, Gdx.graphics.getHeight() -  startBtn.getHeight()-200); // Posicione conforme necessário
 
 
         startBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.gotoGameScreen(); // Chama o método para iniciar o jogo
+                game.gotoIntermediateScreen(); // Chama o método para iniciar o jogo
                 return true;
             }
         });
 
-        Button settingsBtn = new TextButton("SETTINGS", mySkin, "small");
+        Button settingsBtn = new TextButton("Config", mySkin, "small");
         settingsBtn.setSize(200, 50);
-        settingsBtn.setPosition(centerX - settingsBtn.getWidth()/2, centerY -60); // Posicione conforme necessário
+        settingsBtn.setPosition(10, Gdx.graphics.getHeight() - startBtn.getHeight() - settingsBtn.getHeight() - 210); // Posicione conforme necessário
         settingsBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

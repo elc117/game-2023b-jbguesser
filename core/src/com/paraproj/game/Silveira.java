@@ -18,6 +18,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.paraproj.game.SettingsScreen;
 import com.paraproj.game.MenuScreen;
 import com.paraproj.game.GameScreen;
+import  com.paraproj.game.IntermediateScreen;
+
 
 public class Silveira extends Game {
     SpriteBatch batch;
@@ -47,6 +49,11 @@ public class Silveira extends Game {
     public void gotoGameScreen(){
         GameScreen gameScreen = new GameScreen(this);
         setScreen(gameScreen);
+    }
+
+    public void gotoIntermediateScreen(){
+        IntermediateScreen intermediateScreen = new IntermediateScreen(this);
+        setScreen(intermediateScreen);
     }
 
     @Override
