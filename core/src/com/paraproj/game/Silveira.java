@@ -56,6 +56,8 @@ public class Silveira extends Game {
         setScreen(intermediateScreen);
     }
 
+
+
     @Override
     public void render () {
         super.render();
