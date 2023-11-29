@@ -45,11 +45,11 @@ public class GameScreen implements Screen {
     Vector2 localPosicao;
 
     //setando as fotos
-    public LocalFoto[] locais = {new LocalFoto (new Texture(Gdx.files.internal("fotos-ufsm/1.jpg")), 14.6785f, 15.5375f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/4.jpg")), 19.7897f, 20.4567f)};
+    public LocalFoto[] locais = {new LocalFoto (new Texture(Gdx.files.internal("fotos-ufsm/1.jpg")), 14.196047f, 7.209469f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/2.jpg")), 14.482136f, 4.342502f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/3.jpg")), 16.00464f ,5.042774f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/4.jpg")), 14.545418f, 3.2544363f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/5.jpg")), 14.071419f, 3.1552982f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/6.jpg")), 14.459236f, 3.0604706f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/7.jpg")), 14.57989f, 3.2501256f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/8.jpg")), 13.100085f, 3.2587466f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/9.jpg")), 13.058951f, 5.988091f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/10.jpg")), 13.535332f, 1.3667885f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/11.jpg")), 13.35866f, 0.20730548f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/12.jpg")), 14.129921f, 4.08052f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/13.jpg")), 13.2433405f, 7.489337f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/14.jpg")), 14.357611f, 6.0986986f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/15.jpg")), 13.199366f, 3.3805082f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/16.jpg")), 14.586755f, 3.1709447f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/17.jpg")), 13.013941f, 4.420935f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/18.jpg")), 14.082592f, 4.0890384f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/19.jpg")), 15.98805f ,7.48321f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/20.jpg")), 15.14347f, 1.9388535f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/21.jpg")), 8.98085f, 11.857717f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/22.jpeg")), 12.028959f, 4.152355f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/23.jpeg")), 13.034683f, 2.037026f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/24.jpg")), 14.366313f, 6.0190115f)};
+    
     
 
-
-    Texture atual = locais[MathUtils.random(0, 1)].foto;
+    Texture atual = locais[MathUtils.random(0, 23)].foto;
 
     public GameScreen(final Silveira game){
         this.game = game;
