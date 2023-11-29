@@ -55,7 +55,7 @@ public class GameScreen implements Screen {
     public GameScreen(final Silveira game){
         this.game = game;
         batch = new SpriteBatch();
-        OrthographicCamera camera = new OrthographicCamera();
+        final OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false);
         screenPort = new ScreenViewport();
         viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT);
@@ -107,9 +107,11 @@ public class GameScreen implements Screen {
         botaoSeta.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                OrthographicCamera cam = (OrthographicCamera) viewport.getCamera();
                 System.out.println("Clicado.");
-                if(mapaRevelado)
+                if (mapaRevelado)
                     mapaRevelado = false;
+                cam.zoom = 1f;
                 Gdx.input.setInputProcessor(stage);
             }
         });
@@ -174,7 +176,7 @@ public class GameScreen implements Screen {
         mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
 
         lastPositionSprite = new Sprite(new Texture("16x16.png"));
-        lastPositionSprite.setSize(1f, 1f);
+        //lastPositionSprite.setSize(1, 50);
         lastPositionSprite.setOriginCenter();
         lastPositionSprite.setPosition(-5f, -5f);
 
@@ -225,9 +227,10 @@ public class GameScreen implements Screen {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
+
         if (mapaRevelado) {
             handleInput();
-            lastPositionSprite.setBounds(lastPositionSprite.getX(), lastPositionSprite.getY(), cam.zoom, cam.zoom);
+            lastPositionSprite.setBounds(lastPositionSprite.getX(), lastPositionSprite.getY(), cam.zoom, cam.zoom * 2.9f);
             lastPositionSprite.setOriginCenter();
 
             if (worldCoordinates != null) {
@@ -235,6 +238,7 @@ public class GameScreen implements Screen {
             }
             batch.draw(atual, 0,0, 27, WORLD_HEIGHT);
             mapSprite.draw(batch);
+            //batch.draw(lastPositionSprite, 0, 0, 1 , 2);
             lastPositionSprite.draw(batch);
             batch.end();
             cena.act(Gdx.graphics.getDeltaTime());
