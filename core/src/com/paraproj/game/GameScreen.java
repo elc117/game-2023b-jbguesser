@@ -44,6 +44,7 @@ public class GameScreen implements Screen {
     Vector2 worldCoordinates;
     Vector2 localPosicao;
 
+
     //setando as fotos
     public LocalFoto[] locais = {new LocalFoto (new Texture(Gdx.files.internal("fotos-ufsm/1.jpg")), 14.6785f, 15.5375f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/4.jpg")), 19.7897f, 20.4567f)};
     
@@ -175,7 +176,7 @@ public class GameScreen implements Screen {
         lastPositionSprite = new Sprite(new Texture("16x16.png"));
         lastPositionSprite.setSize(1f, 1f);
         lastPositionSprite.setOriginCenter();
-
+        lastPositionSprite.setPosition(-5f, -5f);
 
 
 
@@ -232,7 +233,7 @@ public class GameScreen implements Screen {
             if (worldCoordinates != null) {
                 lastPositionSprite.setOriginBasedPosition(worldCoordinates.x, worldCoordinates.y);
             }
-
+            batch.draw(atual, 0,0, 27, WORLD_HEIGHT);
             mapSprite.draw(batch);
             lastPositionSprite.draw(batch);
             batch.end();
