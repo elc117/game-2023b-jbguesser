@@ -11,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
 public class IntermediateScreen implements  Screen {
@@ -31,12 +34,10 @@ public class IntermediateScreen implements  Screen {
         Button nextBnt = new TextButton("NEXT", mySkin, "small");
         nextBnt.setSize(200, 50);
         nextBnt.setPosition((float) Gdx.graphics.getWidth() /2 + 90, 10);
-        nextBnt.addListener(new EventListener() {
+        nextBnt.addListener(new ClickListener() {
             @Override
-            public boolean handle(Event event) {
+            public void clicked(InputEvent event, float x, float y) {
                 game.gotoGameScreen();
-                return true;
-
             }
         });
         stage.addActor(nextBnt);
