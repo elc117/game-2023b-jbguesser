@@ -10,7 +10,7 @@ Este projeto é um clone do popular jogo GeoGuessr, desenvolvido usando Java e a
 - **Interface de Usuário Intuitiva:** Uma interface amigável que exibe imagens e opções de interação.
 - **Sistema de Pontuação:** Pontuação baseada na proximidade da localização adivinhada com a real.
 - **Níveis Variados:** Diversos locais com diferentes graus de dificuldade.
-
+![MenuJogo](https://github.com/elc117/game-2023b-jbguesser/assets/148721400/c38d7333-3406-4cbd-8412-e16ed70314f5)
 ## Tecnologias Utilizadas
 - **Java:** Linguagem de programação principal.
 - **libGDX:** Biblioteca utilizada para a interface gráfica e lógica do jogo.
@@ -26,7 +26,7 @@ Este projeto é um clone do popular jogo GeoGuessr, desenvolvido usando Java e a
 - **Compilar:** Navegue até a pasta do projeto e compile com `javac [NomeDoArquivo].java`
 - **Executar:** Execute o jogo com `java [NomeDoArquivo]`
 
-
+![image](https://github.com/elc117/game-2023b-jbguesser/assets/148721400/75d49df8-e89f-4698-b4bd-93b5f89d8583)
 ### Documentação do Código
 
 #### Classes Principais
@@ -44,7 +44,8 @@ Este projeto é um clone do popular jogo GeoGuessr, desenvolvido usando Java e a
 ### Como Contribuir
 Para contribuir com o projeto, por favor, siga estes passos:
 1. **Fork do Repositório:** Faça um fork do projeto no GitHub.
-2. **Clone Local:** Clone o repositório para sua máquina local.
+2. **Clone Local:** Clone o repositório para sua máquina
+a local.
 3. **Commit Alterações:** Faça suas alterações e commit.
 4. **Push para o Fork:** Envie as alterações para o seu fork.
 5. **Pull Request:** Abra um pull request para o repositório original.
