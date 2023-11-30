@@ -46,16 +46,28 @@ public class GameScreen implements Screen {
 
 
     //setando as fotos
-    //public LocalFoto[] locais = {new LocalFoto (new Texture(Gdx.files.internal("fotos-ufsm/1.jpg")), 14.196047f, 7.209469f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/2.jpg")), 14.482136f, 4.342502f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/3.jpg")), 16.00464f ,5.042774f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/4.jpg")), 14.545418f, 3.2544363f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/5.jpg")), 14.071419f, 3.1552982f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/6.jpg")), 14.459236f, 3.0604706f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/7.jpg")), 14.57989f, 3.2501256f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/8.jpg")), 13.100085f, 3.2587466f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/9.jpg")), 13.058951f, 5.988091f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/10.jpg")), 13.535332f, 1.3667885f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/11.jpg")), 13.35866f, 0.20730548f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/12.jpg")), 14.129921f, 4.08052f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/13.jpg")), 13.2433405f, 7.489337f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/14.jpg")), 14.357611f, 6.0986986f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/15.jpg")), 13.199366f, 3.3805082f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/16.jpg")), 14.586755f, 3.1709447f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/17.jpg")), 13.013941f, 4.420935f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/18.jpg")), 14.082592f, 4.0890384f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/19.jpg")), 15.98805f ,7.48321f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/20.jpg")), 15.14347f, 1.9388535f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/21.jpg")), 8.98085f, 11.857717f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/22.jpeg")), 12.028959f, 4.152355f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/23.jpeg")), 13.034683f, 2.037026f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/24.jpg")), 14.366313f, 6.0190115f)};
+      public LocalFoto[] locais = {new LocalFoto (new Texture(Gdx.files.internal("fotos-ufsm/1.jpg")), 14.196047f, 7.209469f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/2.jpg")), 14.482136f, 4.342502f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/3.jpg")), 16.00464f ,5.042774f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/4.jpg")), 14.545418f, 3.2544363f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/5.jpg")), 14.071419f, 3.1552982f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/6.jpg")), 14.459236f, 3.0604706f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/7.jpg")), 14.57989f, 3.2501256f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/8.jpg")), 13.100085f, 3.2587466f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/9.jpg")), 13.058951f, 5.988091f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/10.jpg")), 13.535332f, 1.3667885f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/11.jpg")), 13.35866f, 0.20730548f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/12.jpg")), 14.129921f, 4.08052f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/13.jpg")), 13.2433405f, 7.489337f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/14.jpg")), 14.357611f, 6.0986986f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/15.jpg")), 13.199366f, 3.3805082f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/16.jpg")), 14.586755f, 3.1709447f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/17.jpg")), 13.013941f, 4.420935f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/18.jpg")), 14.082592f, 4.0890384f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/19.jpg")), 15.98805f ,7.48321f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/20.jpg")), 15.14347f, 1.9388535f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/21.jpg")), 8.98085f, 11.857717f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/22.jpeg")), 12.028959f, 4.152355f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/23.jpeg")), 13.034683f, 2.037026f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/24.jpg")), 14.366313f, 6.0190115f)};
    
-      public LocalFoto[] locais = {new LocalFoto (new Texture(Gdx.files.internal("fotos-ufsm/1.jpg")), 14.196047f, 7.209469f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/2.jpg")), 14.482136f, 4.342502f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/3.jpg")), 16.00464f ,5.042774f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/4.jpg")), 14.545418f, 3.2544363f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/5.jpg")), 14.071419f, 3.1552982f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/6.jpg")), 14.459236f, 3.0604706f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/7.jpg")), 14.57989f, 3.2501256f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/8.jpg")), 13.100085f, 3.2587466f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/9.jpg")), 13.058951f, 5.988091f)}; 
+      //public LocalFoto[] locais = {new LocalFoto (new Texture(Gdx.files.internal("fotos-ufsm/1.jpg")), 14.196047f, 7.209469f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/2.jpg")), 14.482136f, 4.342502f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/3.jpg")), 16.00464f ,5.042774f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/4.jpg")), 14.545418f, 3.2544363f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/5.jpg")), 14.071419f, 3.1552982f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/6.jpg")), 14.459236f, 3.0604706f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/7.jpg")), 14.57989f, 3.2501256f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/8.jpg")), 13.100085f, 3.2587466f), new LocalFoto(new Texture(Gdx.files.internal("fotos-ufsm/9.jpg")), 13.058951f, 5.988091f)};
       public int[] rpt = new int[4];
       public int numRod = 1;
       int reserva;
 
     Texture atual;
 
-    public int Pontuacao(){
+    public float Pontuacao(){
+        float deltaX = localPosicao.x - locais[reserva].x;
+        float deltaY = localPosicao.y - locais[reserva].y;
+        deltaX = Math.abs(deltaX);
+        deltaY = Math.abs(deltaY);
+        float media = (deltaX + deltaY) / 2f;
+        float pontuacao = 5000f - (media * 1000f);
+        if(pontuacao > 4950f)
+            return 5000f;
+        else if(pontuacao <= 0)
+            return 0f;
+        System.out.println("DeltaX = " + deltaX + " DeltaY = " + deltaY + " Media = " + media + " Pontuacao = " + pontuacao);
+        return pontuacao;
     }
 
     public void Rodada(){ //Serve pra ver se é repetida ou não
@@ -134,6 +146,19 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(stage);
             }
         });
+
+        //Botao de confirmar
+        Button confirmBtn = new TextButton("Confirmar", mySkin, "small");
+        confirmBtn.setSize(200, 50);
+        confirmBtn.setPosition(50,50);
+        confirmBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(localPosicao != null)
+                    game.gotoPontuacaoScreen(Pontuacao());
+            }
+        });
+        cena.addActor(confirmBtn);
         cena.addActor(botaoSeta);
         multiplexadorInput.addProcessor(cena);
         multiplexadorInput.addProcessor(new InputAdapter() {
@@ -181,6 +206,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        Rodada();
         Gdx.input.setInputProcessor(stage);
         batch = new SpriteBatch();
         OrthographicCamera camera = new OrthographicCamera();

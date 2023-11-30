@@ -56,7 +56,10 @@ public class Silveira extends Game {
         setScreen(intermediateScreen);
     }
 
-
+    public void gotoPontuacaoScreen(float pontuacao) {
+        PontuacaoScreen pontuacaoScreen = new PontuacaoScreen(this, pontuacao);
+        setScreen(pontuacaoScreen);
+    }
 
     @Override
     public void render () {
@@ -67,4 +70,5 @@ public class Silveira extends Game {
     public void dispose () {
         super.dispose();
     }
+
 }
