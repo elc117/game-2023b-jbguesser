@@ -22,7 +22,7 @@ public class PontuacaoScreen implements Screen {
     private Skin mySkin;
     private SpriteBatch spriteBatch = new SpriteBatch();
     CharSequence str;
-    public PontuacaoScreen(final Silveira game, float pontuacao){
+    public PontuacaoScreen(final Silveira game, final float pontuacao){
         this.game = game;
         mySkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         stage = new Stage(game.screenPort);
@@ -30,15 +30,16 @@ public class PontuacaoScreen implements Screen {
         fonte = new BitmapFont();
         str = "   " +String.valueOf(pontuacao) + "\n\nPontuação Máxima:\n  5000";
         fonte.getData().setScale(2f);
-        Button nextBnt = new TextButton("MENU", mySkin, "small");
+        Button nextBnt = new TextButton("Next", mySkin, "small");
         nextBnt.setSize(200, 50);
         nextBnt.setPosition((float) Gdx.graphics.getWidth() /2, 10);
-
-
         nextBnt.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.gotoMenuScreen();
+                if(pontuacao > 4500f)
+                    game.gotoGameScreen();
+                else
+                    game.gotoMenuScreen();
             }
         });
         stage.addActor(nextBnt);
