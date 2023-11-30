@@ -1,5 +1,6 @@
 package com.paraproj.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -21,6 +22,7 @@ public class PontuacaoScreen implements Screen {
     private Texture carta;
     private Skin mySkin;
     private SpriteBatch spriteBatch = new SpriteBatch();
+    private CharSequence strVitoria;
     CharSequence str;
     public PontuacaoScreen(final Silveira game, final float pontuacao){
         this.game = game;
@@ -33,10 +35,11 @@ public class PontuacaoScreen implements Screen {
         Button nextBnt = new TextButton("Next", mySkin, "small");
         nextBnt.setSize(200, 50);
         nextBnt.setPosition((float) Gdx.graphics.getWidth() /2, 10);
+        strVitoria = "Você foi vitorioso!";
         nextBnt.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(pontuacao > 4500f)
+                if(pontuacao > 4500f && !(Silveira.numRod >= 4))
                     game.gotoGameScreen();
                 else
                     game.gotoMenuScreen();
@@ -60,6 +63,10 @@ public class PontuacaoScreen implements Screen {
         game.batch.begin();
         game.batch.draw(img, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         fonte.draw(game.batch, str,  Gdx.graphics.getWidth() / 2  - 90, Gdx.graphics.getHeight() / 2);
+        if(GameScreen.numRod >= 4) {
+            fonte.draw(game.batch, strVitoria, Gdx.graphics.getWidth() / 2 - 90, Gdx.graphics.getHeight() / 2 + 50);
+            System.out.println("Sucesso");
+        }
         game.batch.end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

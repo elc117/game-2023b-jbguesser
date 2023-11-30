@@ -22,6 +22,7 @@ import  com.paraproj.game.IntermediateScreen;
 
 
 public class Silveira extends Game {
+    public static int numRod = 0;
     SpriteBatch batch;
     public Viewport screenPort;
     public MyAssetManager myAssetManager = new MyAssetManager();
@@ -37,6 +38,7 @@ public class Silveira extends Game {
     }
 
     public void gotoMenuScreen(){
+        numRod = 0;
         MenuScreen menuScreen = new MenuScreen(this);
         setScreen(menuScreen);
     }
