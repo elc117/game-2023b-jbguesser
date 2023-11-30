@@ -26,8 +26,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.paraproj.game.SettingsScreen;
 import com.paraproj.game.MenuScreen;
 import com.paraproj.game.GameScreen;
+import  com.paraproj.game.IntermediateScreen;
+
 
 public class Silveira extends Game {
+    public static int numRod = 0;
     SpriteBatch batch;
     public Viewport screenPort;
     public MyAssetManager myAssetManager = new MyAssetManager();
@@ -42,6 +45,7 @@ public class Silveira extends Game {
     }
 
     public void gotoMenuScreen(){
+        numRod = 0;
         MenuScreen menuScreen = new MenuScreen(this);
         setScreen(menuScreen);
     }
@@ -56,6 +60,16 @@ public class Silveira extends Game {
         setScreen(gameScreen);
     }
 
+    public void gotoIntermediateScreen(){
+        IntermediateScreen intermediateScreen = new IntermediateScreen(this);
+        setScreen(intermediateScreen);
+    }
+
+    public void gotoPontuacaoScreen(float pontuacao) {
+        PontuacaoScreen pontuacaoScreen = new PontuacaoScreen(this, pontuacao);
+        setScreen(pontuacaoScreen);
+    }
+
     @Override
     public void render () {
         super.render();
@@ -65,4 +79,5 @@ public class Silveira extends Game {
     public void dispose () {
         super.dispose();
     }
+
 }
