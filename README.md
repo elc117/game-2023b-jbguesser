@@ -48,5 +48,7 @@ Para contribuir com o projeto, por favor, siga estes passos:
 3. **Commit Alterações:** Faça suas alterações e commit.
 4. **Push para o Fork:** Envie as alterações para o seu fork.
 5. **Pull Request:** Abra um pull request para o repositório original.
+6. diagrama de classes
+![diagrama](https://github.com/elc117/game-2023b-jbguesser/assets/148721400/1a9b9bdf-75d2-4b84-814b-951c7650c7e0)
 
-Diagrama de classes:
+
