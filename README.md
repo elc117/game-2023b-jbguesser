@@ -1,6 +1,6 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/TUsa8_pI)
 
-# Documentação do Projeto GeoGuessr com libGDX
+# Projeto GeoGuessr com libGDX
 
 ## Descrição
 Este projeto é um clone do popular jogo GeoGuessr, desenvolvido usando Java e a biblioteca libGDX. O jogo desafia os jogadores a identificar locais em um mapa com base em imagens e fornece pontuações com base na precisão.
